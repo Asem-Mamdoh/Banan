@@ -1,0 +1,73 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "secondary-fixed": "#ffe088",
+        "on-error": "#ffffff",
+        "error-container": "#ffdad6",
+        "on-tertiary-fixed-variant": "#474747",
+        "on-surface-variant": "#40484c",
+        "surface-dim": "#dbdad6",
+        "surface-container-highest": "#e3e2df",
+        "secondary": "#735c00",
+        "surface-tint": "#2a657e",
+        "outline-variant": "#c0c7cd",
+        "tertiary": "#2f2f2f",
+        "tertiary-fixed-dim": "#c8c6c6",
+        "inverse-surface": "#2f312e",
+        "surface-container-low": "#f4f4f0",
+        "inverse-primary": "#96ceeb",
+        "on-secondary-container": "#745c00",
+        "on-primary-fixed-variant": "#044d65",
+        "on-secondary-fixed-variant": "#574500",
+        "surface-bright": "#faf9f5",
+        "surface-container-high": "#e9e8e4",
+        "secondary-container": "#fed65b",
+        "tertiary-fixed": "#e4e2e1",
+        "on-secondary-fixed": "#241a00",
+        "primary-container": "#004b63",
+        "on-tertiary-fixed": "#1b1c1c",
+        "on-primary-fixed": "#001f2b",
+        "surface-variant": "#e3e2df",
+        "outline": "#71787d",
+        "on-tertiary-container": "#b4b2b2",
+        "primary": "#003345",
+        "surface-container": "#efeeea",
+        "on-tertiary": "#ffffff",
+        "error": "#ba1a1a",
+        "on-background": "#1b1c1a",
+        "surface-container-lowest": "#ffffff",
+        "on-secondary": "#ffffff",
+        "surface": "#faf9f5",
+        "on-surface": "#1b1c1a",
+        "secondary-fixed-dim": "#e9c349",
+        "on-primary": "#ffffff",
+        "inverse-on-surface": "#f2f1ed",
+        "on-error-container": "#93000a",
+        "primary-fixed": "#bfe8ff",
+        "background": "#faf9f5",
+        "tertiary-container": "#454545",
+        "on-primary-container": "#83bad6",
+        "primary-fixed-dim": "#96ceeb"
+      },
+      borderRadius: {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      fontFamily: {
+        "headline": ["Manrope", "Cairo", "sans-serif"],
+        "body": ["Plus Jakarta Sans", "Cairo", "sans-serif"],
+        "label": ["Manrope", "Cairo", "sans-serif"]
+      }
+    },
+  },
+  plugins: [],
+}
