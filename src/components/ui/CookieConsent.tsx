@@ -27,6 +27,16 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onOpenSettings, forceShow
   const handleAccept = () => {
     localStorage.setItem('cookie-consent', 'true');
     setIsVisible(false);
+    
+    // ==========================================
+    // هنا يتم تفعيل إعلانات جوجل أو فيسبوك بيكسل 
+    // ==========================================
+    console.log("تم قبول الكوكيز: يمكن الآن تشغيل سكريبتات الإعلانات والتتبع (Google/Facebook)");
+    if (typeof window !== 'undefined') {
+      // window.dataLayer = window.dataLayer || [];
+      // window.dataLayer.push({ event: 'cookie_consent_accepted' });
+    }
+
     if (onClose) onClose();
   };
 

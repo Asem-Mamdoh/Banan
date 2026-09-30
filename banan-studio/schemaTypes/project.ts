@@ -2,24 +2,24 @@ import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'project',
-  title: 'Luxury Project',
+  title: 'المشاريع العقارية',
   type: 'document',
   fields: [
     defineField({
       name: 'titleEn',
-      title: 'Title (English)',
+      title: 'العنوان (إنجليزي)',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'titleAr',
-      title: 'Title (Arabic)',
+      title: 'العنوان (عربي)',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
+      title: 'الرابط (Slug)',
       type: 'slug',
       options: {
         source: 'titleEn',
@@ -29,35 +29,35 @@ export default defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'التصنيف',
       type: 'string',
       options: {
         list: [
-          { title: 'Golf', value: 'golf' },
-          { title: 'Waterfront', value: 'waterfront' },
-          { title: 'Villas', value: 'villas' },
-          { title: 'Coastal', value: 'coastal' },
-          { title: 'Mountain', value: 'mountain' },
-          { title: 'Valley', value: 'valley' },
+          { title: 'جولف (Golf)', value: 'golf' },
+          { title: 'واجهة بحرية (Waterfront)', value: 'waterfront' },
+          { title: 'فلل (Villas)', value: 'villas' },
+          { title: 'ساحلي (Coastal)', value: 'coastal' },
+          { title: 'جبلي (Mountain)', value: 'mountain' },
+          { title: 'وادي (Valley)', value: 'valley' },
         ],
       },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'descriptionEn',
-      title: 'Description (English)',
+      title: 'الوصف (إنجليزي)',
       type: 'text',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'descriptionAr',
-      title: 'Description (Arabic)',
+      title: 'الوصف (عربي)',
       type: 'text',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'mainImage',
-      title: 'Main Image',
+      title: 'الصورة الرئيسية',
       type: 'image',
       options: {
         hotspot: true,
@@ -65,13 +65,13 @@ export default defineType({
     }),
     defineField({
       name: 'gallery',
-      title: 'Gallery Images',
+      title: 'معرض الصور',
       type: 'array',
       of: [{ type: 'image', options: { hotspot: true } }],
     }),
     defineField({
       name: 'brochure',
-      title: 'PDF Brochure',
+      title: 'ملف الـ PDF (Brochure)',
       type: 'file',
       options: {
         accept: '.pdf',
@@ -79,13 +79,13 @@ export default defineType({
     }),
     defineField({
       name: 'specs',
-      title: 'Specifications',
+      title: 'المواصفات',
       type: 'object',
       fields: [
-        { name: 'area', title: 'Area (sq ft)', type: 'string' },
-        { name: 'bedrooms', title: 'Bedrooms', type: 'string' },
-        { name: 'typeEn', title: 'Property Type (English)', type: 'string' },
-        { name: 'typeAr', title: 'Property Type (Arabic)', type: 'string' },
+        { name: 'area', title: 'المساحة (قدم مربع)', type: 'string' },
+        { name: 'bedrooms', title: 'عدد الغرف', type: 'string' },
+        { name: 'typeEn', title: 'نوع العقار (إنجليزي)', type: 'string' },
+        { name: 'typeAr', title: 'نوع العقار (عربي)', type: 'string' },
       ],
     }),
   ],
