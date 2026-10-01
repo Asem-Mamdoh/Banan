@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { useLanguage } from '../../context/LanguageContext';
 
 type Msg = { id: string; role: 'user' | 'assistant'; content: string };
@@ -196,13 +198,15 @@ export default function SalesAgentChat() {
                   className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[92%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                    className={`max-w-[92%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed prose prose-sm prose-p:my-1 prose-ul:my-1 prose-li:my-0 ${
                       m.role === 'user'
-                        ? 'bg-[#004B63]/12 text-[#1b1c1a] border border-[#004B63]/18 shadow-sm'
-                        : 'bg-white text-on-surface/90 border border-[#1b1c1a]/8 shadow-sm'
+                        ? 'bg-[#004B63]/12 text-[#1b1c1a] border border-[#004B63]/18 shadow-sm prose-p:text-[#1b1c1a] prose-strong:text-[#004B63]'
+                        : 'bg-white text-on-surface/90 border border-[#1b1c1a]/8 shadow-sm prose-p:text-on-surface/90 prose-strong:text-on-surface'
                     }`}
                   >
-                    {m.content}
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {m.content}
+                    </ReactMarkdown>
                   </div>
                 </div>
               ))}
