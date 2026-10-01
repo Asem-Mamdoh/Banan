@@ -9,8 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.87",
+    "@ai-sdk/openai": "^4.0.83",
     "@sanity/client": "^8.9.0",
     "@sanity/image-url": "^2.1.1",
+    "ai": "^7.0.126",
+    "dotenv": "^18.0.5",
     "framer-motion": "^12.38.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

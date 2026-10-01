@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { generateText, type ModelMessage } from 'ai';
 import { google } from '@ai-sdk/google';
-import { openai } from '@ai-sdk/openai';
+import { openai, createOpenAI } from '@ai-sdk/openai';
 import { client } from '../lib/sanity';
 import { projectsForAgentQuery } from '../lib/sanity.queries';
 
@@ -95,6 +95,13 @@ ${projectBlock}`;
 }
 
 function resolveModel() {
+  if (process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN) {
+    const cfOpenai = createOpenAI({
+      baseURL: `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/v1`,
+      apiKey: process.env.CLOUDFLARE_API_TOKEN,
+    });
+    return cfOpenai('@cf/meta/llama-3.1-8b-instruct');
+  }
   if (process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
     return google('gemini-2.5-flash');
   }
@@ -146,7 +153,7 @@ export async function runSalesChat(rawBody: unknown): Promise<ChatApiResponse> {
     if (!model) {
       return {
         error:
-          'AI is not configured. Set GOOGLE_GENERATIVE_AI_API_KEY (Gemini) or OPENAI_API_KEY on the server.',
+          'AI is not configured. Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN, or GOOGLE_GENERATIVE_AI_API_KEY, or OPENAI_API_KEY on the server.',
         code: 'MISSING_API_KEY',
       };
     }
