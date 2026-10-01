@@ -99,6 +99,7 @@ function resolveModel() {
     const cfOpenai = createOpenAI({
       baseURL: `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/v1`,
       apiKey: process.env.CLOUDFLARE_API_TOKEN,
+      compatibility: 'compatible',
     });
     return cfOpenai('@cf/meta/llama-3.1-8b-instruct');
   }
