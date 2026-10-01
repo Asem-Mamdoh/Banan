@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
 import Features from './components/sections/Features';
 import MediaGallery from './components/sections/MediaGallery';
 import ProjectsGallery from './components/sections/ProjectsGallery';
 import SocialPulse from './components/sections/SocialPulse';
+import ContactSection from './components/sections/ContactSection';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 import LegalModal from './components/ui/LegalModal';
@@ -43,6 +45,7 @@ const App = () => {
         <MediaGallery />
         <ProjectsGallery />
         <SocialPulse />
+        <ContactSection />
       </main>
       <Footer 
         onOpenLegal={openLegal} 
@@ -66,6 +69,7 @@ const App = () => {
       <ChatErrorBoundary>
         <SalesAgentChat />
       </ChatErrorBoundary>
+      <Analytics />
     </div>
   );
 };
