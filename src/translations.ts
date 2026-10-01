@@ -186,6 +186,22 @@ export const translations = {
       banner: "We use cookies to enhance your luxury browsing experience.",
       accept: "Accept",
       settings: "Cookie Settings"
+    },
+    chat: {
+      welcome: "Hello! I am Banan Real Estate's AI Assistant. How can I help you discover premium properties in Oman?",
+      title: "BANAN AI ASSISTANT",
+      subtitle: "Ask about properties, residency, or investments",
+      close: "Close chat",
+      open: "Open chat",
+      thinking: "Thinking...",
+      disclaimer: "AI Assistant can make mistakes. Please verify important information with our sales team.",
+      placeholder: "Type your message here...",
+      send: "Send",
+      error: "Sorry, I couldn't process your request. Please try again.",
+      errorUnreachable: "Service unavailable right now. Please try again later.",
+      errorNotFound: "Chat endpoint not found. Please check configuration.",
+      errorServer: "Server error occurred. Please try again later.",
+      configError: "Chat service is not properly configured. Please contact support."
     }
   },
   ar: {
@@ -373,6 +389,22 @@ export const translations = {
       banner: "نحن نستخدم ملفات تعريف الارتباط لتحسين تجربة التصفح الفاخرة الخاصة بكم.",
       accept: "قبول",
       settings: "إعدادات الكوكيز"
+    },
+    chat: {
+      welcome: "مرحباً! أنا المساعد الذكي لبنان العقارية. كيف يمكنني مساعدتك في استكشاف عقاراتنا الفاخرة في عُمان؟",
+      title: "المساعد الذكي",
+      subtitle: "اسأل عن العقارات، الإقامة، أو الاستثمار",
+      close: "إغلاق المحادثة",
+      open: "فتح المحادثة",
+      thinking: "يفكر...",
+      disclaimer: "قد يخطئ المساعد الذكي أحياناً. يرجى التحقق من المعلومات المهمة مع فريق المبيعات.",
+      placeholder: "اكتب رسالتك هنا...",
+      send: "إرسال",
+      error: "عذراً، لم أتمكن من معالجة طلبك. يرجى المحاولة مرة أخرى.",
+      errorUnreachable: "الخدمة غير متوفرة حالياً. يرجى المحاولة لاحقاً.",
+      errorNotFound: "تعذر الوصول إلى خدمة المحادثة. يرجى التحقق من الإعدادات.",
+      errorServer: "حدث خطأ في الخادم. يرجى المحاولة لاحقاً.",
+      configError: "خدمة المحادثة غير معدة بشكل صحيح. يرجى الاتصال بالدعم."
     }
   }
 };

@@ -160,7 +160,7 @@ export default function SalesAgentChat() {
     'ring-1 ring-white/80';
 
   return (
-    <div className="fixed bottom-6 end-6 z-[95] flex flex-col items-end gap-3 pointer-events-none">
+    <div className="fixed bottom-6 end-8 z-50 flex flex-col items-end gap-3 pointer-events-none">
       <AnimatePresence>
         {open && (
           <motion.div
@@ -254,12 +254,11 @@ export default function SalesAgentChat() {
         type="button"
         layout
         onClick={() => setOpen((o) => !o)}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
-        className="pointer-events-auto size-14 rounded-full border border-[#1b1c1a]/10 bg-surface/95 backdrop-blur-xl shadow-[0_12px_40px_rgba(27,28,26,0.12)] flex items-center justify-center text-secondary ring-1 ring-white/90 hover:ring-secondary/35 transition-shadow"
+        className="pointer-events-auto relative size-12 flex items-center justify-center rounded-full group"
         aria-label={open ? t.chat.close : t.chat.open}
       >
-        <span className="material-symbols-outlined text-2xl">
+        <div className="absolute inset-0 rounded-full bg-surface-container shadow-xl backdrop-blur-md transition-transform group-hover:scale-110" />
+        <span className="material-symbols-outlined text-2xl relative z-10 text-on-surface-variant font-bold transition-transform group-hover:-translate-y-1">
           {open ? 'expand_more' : 'chat_bubble'}
         </span>
       </motion.button>

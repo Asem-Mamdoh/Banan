@@ -10,6 +10,8 @@ import ScrollToTop from './components/ui/ScrollToTop';
 import LegalModal from './components/ui/LegalModal';
 import CookieConsent from './components/ui/CookieConsent';
 import { useLanguage } from './context/LanguageContext';
+import { ChatErrorBoundary } from './components/ui/ChatErrorBoundary';
+import SalesAgentChat from './components/ui/SalesAgentChat';
 
 const App = () => {
   const { t } = useLanguage();
@@ -60,6 +62,10 @@ const App = () => {
         onClose={() => setShowCookieConsent(false)}
         onOpenSettings={() => openLegal('privacy')} 
       />
+
+      <ChatErrorBoundary>
+        <SalesAgentChat />
+      </ChatErrorBoundary>
     </div>
   );
 };
