@@ -49,7 +49,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Missing body', code: 'BAD_REQUEST' });
     }
 
-    const result = await runSalesChat(body);
+    const userCountry = (req.headers['x-vercel-ip-country'] as string) || 'OM';
+    const result = await runSalesChat(body, userCountry);
 
     if ('error' in result) {
       const code = result.code;

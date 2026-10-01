@@ -20,10 +20,29 @@ function truncate(s: string, max: number) {
   return t.length <= max ? t : `${t.slice(0, max)}…`;
 }
 
-function formatProjectsContext(projects: unknown[]): string {
+function getCurrencyByCountry(countryCode: string): string {
+  const code = countryCode.toUpperCase();
+  const map: Record<string, string> = {
+    AE: 'AED',
+    SA: 'SAR',
+    QA: 'QAR',
+    BH: 'BHD',
+    KW: 'KWD',
+    OM: 'OMR',
+    IR: 'IRR',
+    RU: 'RUB',
+    GB: 'GBP',
+    DE: 'EUR', FR: 'EUR', IT: 'EUR', ES: 'EUR', NL: 'EUR', BE: 'EUR', AT: 'EUR', IE: 'EUR',
+  };
+  return map[code] || 'USD';
+}
+
+function formatProjectsContext(projects: unknown[], userCurrency: string, exchangeRate: number): string {
   if (!Array.isArray(projects) || projects.length === 0) {
     return 'No projects are published in the CMS yet. Offer general guidance about luxury real estate in Oman and invite the user to contact BANAN for specific listings.';
   }
+
+  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
 
   return projects
     .map((raw, i) => {
@@ -32,14 +51,33 @@ function formatProjectsContext(projects: unknown[]): string {
       const titleAr = String(p.titleAr ?? '');
       const category = String(p.category ?? '');
       const specs = p.specs as Record<string, string> | undefined;
+      const units = p.units as Array<Record<string, unknown>> | undefined;
+      
       const specLine = specs
-        ? `Area: ${specs.area ?? 'n/a'} | Bedrooms: ${specs.bedrooms ?? 'n/a'} | Type EN: ${specs.typeEn ?? ''} | Type AR: ${specs.typeAr ?? ''}`
+        ? `Area: ${specs.area ?? 'n/a'} | Bedrooms: ${specs.bedrooms ?? 'n/a'} | Type EN: ${specs.typeEn ?? ''}`
         : '';
+        
+      let unitsLine = '';
+      if (units && units.length > 0) {
+        unitsLine = '\n- **Available Units & Pricing:**\n' + units.map(u => {
+          const typeEn = String(u.typeEn ?? '');
+          const priceOMR = Number(u.priceOMR) || 0;
+          const converted = priceOMR * exchangeRate;
+          
+          let priceText = `OMR ${formatter.format(priceOMR)}`;
+          if (userCurrency !== 'OMR') {
+            priceText += ` (approx. ${formatter.format(converted)} ${userCurrency})`;
+          }
+          return `  - ${typeEn}: from ${priceText}`;
+        }).join('\n');
+      }
+        
       const img = p.mainImageUrl ? String(p.mainImageUrl) : '';
       return [
         `### Project ${i + 1}: ${titleEn} / ${titleAr}`,
         `- Category: ${category}`,
         specLine ? `- Specs: ${specLine}` : '',
+        unitsLine,
         img ? `- Main image URL: ${img}` : '',
         `- Description (EN): ${truncate(String(p.descriptionEn ?? ''), 500)}`,
         `- Description (AR): ${truncate(String(p.descriptionAr ?? ''), 500)}`,
@@ -145,7 +183,7 @@ function parseChatBody(body: unknown): { messages: ChatClientMessage[] } {
   return { messages };
 }
 
-export async function runSalesChat(rawBody: unknown): Promise<ChatApiResponse> {
+export async function runSalesChat(rawBody: unknown, userCountryCode: string = 'OM'): Promise<ChatApiResponse> {
   try {
     let messages: ChatClientMessage[];
     try {
@@ -161,8 +199,29 @@ export async function runSalesChat(rawBody: unknown): Promise<ChatApiResponse> {
       console.error('Sanity fetch for agent:', e);
       return { error: 'Could not load project data.', code: 'UPSTREAM' };
     }
+    
+    // Currency Exchange Logic
+    const userCurrency = getCurrencyByCountry(userCountryCode);
+    let exchangeRate = 1;
+    if (userCurrency !== 'OMR') {
+      try {
+        const rateRes = await fetch('https://open.er-api.com/v6/latest/OMR');
+        if (rateRes.ok) {
+          const rateData = await rateRes.json();
+          if (rateData?.rates?.[userCurrency]) {
+            exchangeRate = rateData.rates[userCurrency];
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch exchange rates', err);
+        // Fallback approximate rates (pegged currencies)
+        if (userCurrency === 'USD') exchangeRate = 2.6;
+        else if (userCurrency === 'AED') exchangeRate = 9.55;
+        else if (userCurrency === 'SAR') exchangeRate = 9.75;
+      }
+    }
 
-    const projectBlock = formatProjectsContext(projects);
+    const projectBlock = formatProjectsContext(projects, userCurrency, exchangeRate);
     const system = buildSystemPrompt(projectBlock, messages);
 
     // 1. Try Cloudflare Direct API first

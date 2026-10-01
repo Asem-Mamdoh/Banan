@@ -88,6 +88,44 @@ export default defineType({
         { name: 'typeAr', title: 'نوع العقار (عربي)', type: 'string' },
       ],
     }),
+    defineField({
+      name: 'units',
+      title: 'الوحدات المتاحة والأسعار (Available Units & Prices)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'typeAr',
+              title: 'نوع الوحدة (عربي)',
+              type: 'string',
+              description: 'مثال: استوديو، شقة غرفتين، فيلا',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'typeEn',
+              title: 'Unit Type (English)',
+              type: 'string',
+              description: 'e.g. Studio, 2-Bed Apartment, Villa',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'priceOMR',
+              title: 'السعر المبدئي بالريال العماني (Starting Price in OMR)',
+              type: 'number',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'area',
+              title: 'المساحة (Area)',
+              type: 'string',
+              description: 'e.g. 50 sqm / 50 متر مربع',
+            },
+          ],
+        },
+      ],
+    }),
   ],
   preview: {
     select: {

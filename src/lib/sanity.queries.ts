@@ -80,5 +80,6 @@ export const projectsForAgentQuery = `*[_type == "project"] | order(_createdAt d
   descriptionEn,
   descriptionAr,
   "mainImageUrl": mainImage.asset->url,
-  specs
+  specs,
+  units
 }`;
