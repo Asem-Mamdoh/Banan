@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
+import GoogleAnalytics from './components/ui/GoogleAnalytics';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
 import Features from './components/sections/Features';
@@ -70,6 +71,7 @@ const App = () => {
         <SalesAgentChat />
       </ChatErrorBoundary>
       <Analytics />
+      <GoogleAnalytics />
     </div>
   );
 };
