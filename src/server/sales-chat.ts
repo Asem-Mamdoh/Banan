@@ -95,14 +95,6 @@ ${projectBlock}`;
 }
 
 function resolveModel() {
-  if (process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN) {
-    const cfOpenai = createOpenAI({
-      baseURL: `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/v1`,
-      apiKey: process.env.CLOUDFLARE_API_TOKEN,
-      compatibility: 'compatible',
-    });
-    return cfOpenai('@cf/meta/llama-3.1-8b-instruct');
-  }
   if (process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
     return google('gemini-2.5-flash');
   }
@@ -150,15 +142,6 @@ function parseChatBody(body: unknown): { messages: ChatClientMessage[] } {
 
 export async function runSalesChat(rawBody: unknown): Promise<ChatApiResponse> {
   try {
-    const model = resolveModel();
-    if (!model) {
-      return {
-        error:
-          'AI is not configured. Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN, or GOOGLE_GENERATIVE_AI_API_KEY, or OPENAI_API_KEY on the server.',
-        code: 'MISSING_API_KEY',
-      };
-    }
-
     let messages: ChatClientMessage[];
     try {
       messages = parseChatBody(rawBody).messages;
@@ -176,6 +159,52 @@ export async function runSalesChat(rawBody: unknown): Promise<ChatApiResponse> {
 
     const projectBlock = formatProjectsContext(projects);
     const system = buildSystemPrompt(projectBlock, messages);
+
+    // 1. Try Cloudflare Direct API first
+    if (process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN) {
+      try {
+        const url = `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct`;
+        const cfRes = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            messages: [
+              { role: 'system', content: system },
+              ...toModelMessages(messages)
+            ],
+            temperature: 0.65,
+            max_tokens: 1024
+          })
+        });
+
+        if (!cfRes.ok) {
+          console.error('Cloudflare API Error:', cfRes.status, await cfRes.text());
+          throw new Error('Cloudflare API failed');
+        }
+
+        const data = await cfRes.json() as any;
+        return { role: 'assistant', content: (data.result?.response || '…').trim() };
+      } catch (e) {
+        console.error('Cloudflare direct fetch error:', e);
+        return {
+          error: 'The assistant could not complete a reply using Cloudflare. Please check your credentials.',
+          code: 'UPSTREAM',
+        };
+      }
+    }
+
+    // 2. Fallback to Gemini / OpenAI
+    const model = resolveModel();
+    if (!model) {
+      return {
+        error:
+          'AI is not configured. Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN, or GOOGLE_GENERATIVE_AI_API_KEY, or OPENAI_API_KEY on the server.',
+        code: 'MISSING_API_KEY',
+      };
+    }
 
     try {
       const { text } = await generateText({
