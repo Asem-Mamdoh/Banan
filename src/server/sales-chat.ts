@@ -2,8 +2,8 @@ import 'dotenv/config';
 import { generateText, type ModelMessage } from 'ai';
 import { google } from '@ai-sdk/google';
 import { openai, createOpenAI } from '@ai-sdk/openai';
-import { client } from '../lib/sanity';
-import { projectsForAgentQuery } from '../lib/sanity.queries';
+import { client } from '../lib/sanity.js';
+import { projectsForAgentQuery } from '../lib/sanity.queries.js';
 
 export type ChatClientMessage = { role: 'user' | 'assistant'; content: string };
 

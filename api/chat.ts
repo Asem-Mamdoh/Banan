@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { runSalesChat } from '../src/server/sales-chat';
+import { runSalesChat } from '../src/server/sales-chat.js';
 
 function readBody(req: VercelRequest): Promise<unknown> {
   if (req.body !== undefined && req.body !== null) {
