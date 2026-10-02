@@ -21,7 +21,7 @@ export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature }: Fo
   };
 
   return (
-    <footer id="contact" className={`bg-[#1b1c1a] text-white/50 pt-[50px] pb-32 border-t border-white/5 font-body ${isRtl ? 'rtl' : 'ltr'}`}>
+    <footer id="contact" className={`bg-[#1b1c1a] text-white/50 py-[50px] border-t border-white/5 font-body ${isRtl ? 'rtl' : 'ltr'}`}>
       <div className="container-custom">
         <div className="grid lg:grid-cols-4 gap-16 mb-24">
           <div className="lg:col-span-2">
@@ -139,9 +139,9 @@ export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature }: Fo
           </div>
         </div>
 
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
-          <p className="text-[10px] uppercase tracking-widest font-bold font-headline opacity-30">{t.footer.rights}</p>
-          <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold font-headline">
+        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10 md:pe-24">
+          <p className="text-[10px] uppercase tracking-widest font-bold font-headline opacity-30 text-center md:text-start">{t.footer.rights}</p>
+          <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold font-headline pb-8 md:pb-0">
             <span className="text-white/40">{t.footer.crafted}</span>
             <a 
               href="https://instagram.com/asem.mamdohh" 
