@@ -89,9 +89,10 @@ const ProjectsGallery = () => {
                       arrow_forward
                     </span>
                   </div>
-                </motion.div>
-              );
-            })}
+                </div>
+              </motion.div>
+            );
+          })}
           </AnimatePresence>
         </div>
 
