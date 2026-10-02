@@ -48,7 +48,7 @@ const ProjectsGallery = () => {
                 {/* Media Container */}
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <img
-                    src={project.mainImageUrl ? `${project.mainImageUrl}?auto=format&w=800&q=75` : ''}
+                    src={project.mainImageUrl ? `${project.mainImageUrl}?auto=format&w=1600&q=90` : ''}
                     alt={title}
                     loading="lazy"
                     className="h-full w-full object-cover transition-all duration-1000 group-hover:scale-105"

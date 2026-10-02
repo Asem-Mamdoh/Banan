@@ -118,7 +118,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               <motion.img
                 key={currentSlide}
                 layoutId={`project-image-${project._id}-${currentSlide}`}
-                src={galleryImages[currentSlide] ? `${galleryImages[currentSlide]}?auto=format&w=1200&q=80` : ''}
+                src={galleryImages[currentSlide] ? `${galleryImages[currentSlide]}?auto=format&w=2000&q=90` : ''}
                 initial={{ opacity: 0, x: isRtl ? -100 : 100 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: isRtl ? 100 : -100 }}

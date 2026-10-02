@@ -42,9 +42,9 @@ export default function MediaGallery() {
     return url;
   };
 
-  const getOptimizedUrl = (url: string, w = 1200) => {
+  const getOptimizedUrl = (url: string, w = 1600) => {
     if (!url) return '';
-    if (url.includes('cdn.sanity.io')) return `${url}?auto=format&w=${w}&q=75`;
+    if (url.includes('cdn.sanity.io')) return `${url}?auto=format&w=${w}&q=90`;
     return url;
   };
 
