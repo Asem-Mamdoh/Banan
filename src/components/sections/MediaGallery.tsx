@@ -232,6 +232,4 @@ export default function MediaGallery() {
       </AnimatePresence>
     </section>
   );
-};
-
-export default MediaGallery;
+}
