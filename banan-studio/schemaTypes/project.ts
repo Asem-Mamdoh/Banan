@@ -121,7 +121,6 @@ export default defineType({
               name: 'priceOMR',
               title: 'السعر المبدئي بالريال العماني (Starting Price in OMR)',
               type: 'number',
-              validation: (Rule) => Rule.required(),
             },
             {
               name: 'area',

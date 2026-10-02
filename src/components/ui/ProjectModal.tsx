@@ -231,12 +231,20 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                           <span className="font-bold text-[#1b1c1a]">{unitType}</span>
                           {unit.area && <span className="text-[10px] text-[#1b1c1a]/50 mt-1">{unit.area}</span>}
                         </div>
-                        <div className="text-right">
-                          <span className="text-[10px] uppercase tracking-widest text-[#1b1c1a]/50 block mb-1">
-                            {t.projects.modal.price}
-                          </span>
-                          <span className="font-bold text-secondary">{unit.priceOMR.toLocaleString()} OMR</span>
-                        </div>
+                        {unit.priceOMR ? (
+                          <div className="text-right">
+                            <span className="text-[10px] uppercase tracking-widest text-[#1b1c1a]/50 block mb-1">
+                              {t.projects.modal.price}
+                            </span>
+                            <span className="font-bold text-secondary">{unit.priceOMR.toLocaleString()} OMR</span>
+                          </div>
+                        ) : (
+                          <div className="text-right">
+                            <span className="font-bold text-[#1b1c1a]/50 text-sm block mt-2">
+                              {isRtl ? 'السعر حسب الطلب' : 'Price on Request'}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
