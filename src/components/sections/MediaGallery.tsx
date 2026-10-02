@@ -6,7 +6,6 @@ export default function MediaGallery() {
   const [activeTab, setActiveTab] = useState<'videos' | 'photos'>('videos');
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<any>(null);
   const { t, language, isRtl, cmsData } = useLanguage();
   
   const getLocalized = (field: any) => {
@@ -28,9 +27,6 @@ export default function MediaGallery() {
   ];
   const galleryItems = (cmsMedia?.photoGallery && cmsMedia.photoGallery.length > 0) ? cmsMedia.photoGallery : localFallbacks;
   const featuredVideo = cmsMedia?.featuredVideo;
-  const videoGallery = cmsMedia?.videoGallery || [];
-
-  const activeVideo = selectedVideo || featuredVideo;
 
   const getEmbedUrl = (url: string) => {
     if (!url) return '';
@@ -93,130 +89,76 @@ export default function MediaGallery() {
 
         <AnimatePresence mode="wait">
           {activeTab === 'videos' ? (
-            <div className="flex flex-col gap-8">
-              {/* Main Player */}
-              <motion.div 
-                key="videos"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="relative aspect-video rounded-3xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-black"
-              >
-                {!isPlaying ? (
-                  <>
-                    <img 
-                      src={activeVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80"} 
-                      className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" 
-                      alt="Cinema Gallery Hero"
-                    />
-                    
-                    {/* Centered Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center z-20">
-                      <motion.button 
-                        onClick={() => setIsPlaying(true)}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="size-20 md:size-28 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white shadow-2xl relative group/play"
-                      >
-                        <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse scale-110" />
-                        <span className="material-symbols-outlined text-5xl md:text-6xl lg:text-7xl relative z-10 translate-x-[2px]">
-                          play_arrow
-                        </span>
-                      </motion.button>
-                    </div>
-
-                    {/* Title Overlay (Bottom) */}
-                    <div className="absolute inset-x-0 bottom-0 p-10 md:p-14 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                      <div className="max-w-xl">
-                        <p className="text-secondary font-bold text-[10px] uppercase tracking-[0.4em] mb-4 drop-shadow-md">
-                          {getLocalized(activeVideo?.subtitle || activeVideo?.category) || t.media.featured.subtitle}
-                        </p>
-                        <h3 className="text-white font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] drop-shadow-lg">
-                          {getLocalized(activeVideo?.title) || t.media.featured.title}
-                        </h3>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="w-full h-full bg-black relative flex items-center justify-center animate-in fade-in duration-500">
-                    {activeVideo?.videoFileUrl ? (
-                      <video
-                        src={activeVideo.videoFileUrl}
-                        className="w-full h-full object-cover md:object-contain"
-                        controls
-                        autoPlay
-                        controlsList="nodownload"
-                      />
-                    ) : (
-                      <iframe
-                        src={getEmbedUrl(activeVideo?.videoUrl || "") + (activeVideo?.videoUrl ? "?autoplay=1" : "")}
-                        className="w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    )}
-                    <button
-                      onClick={() => setIsPlaying(false)}
-                      className="absolute top-4 right-4 z-[60] bg-black/40 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-md transition-colors"
+            <motion.div 
+              key="videos"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="relative aspect-video rounded-3xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-black"
+            >
+              {!isPlaying ? (
+                <>
+                  <img 
+                    src={featuredVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80"} 
+                    className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" 
+                    alt="Cinema Gallery Hero"
+                  />
+                  
+                  {/* Centered Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center z-20">
+                    <motion.button 
+                      onClick={() => setIsPlaying(true)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="size-20 md:size-28 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white shadow-2xl relative group/play"
                     >
-                      <span className="material-symbols-outlined">close</span>
-                    </button>
+                      <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse scale-110" />
+                      <span className="material-symbols-outlined text-5xl md:text-6xl lg:text-7xl relative z-10 translate-x-[2px]">
+                        play_arrow
+                      </span>
+                    </motion.button>
                   </div>
-                )}
-              </motion.div>
 
-              {/* Additional Videos Grid */}
-              {videoGallery.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-                  {/* Option to go back to featured video if another video is selected */}
-                  {selectedVideo !== null && featuredVideo && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="group relative aspect-video overflow-hidden rounded-2xl shadow-lg cursor-pointer"
-                      onClick={() => { setSelectedVideo(null); setIsPlaying(true); }}
-                    >
-                      <img 
-                        src={featuredVideo.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80"}
-                        className="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                        <span className="material-symbols-outlined text-white text-3xl mb-2 bg-black/40 rounded-full p-2 backdrop-blur-sm group-hover:bg-secondary transition-colors">play_arrow</span>
-                        <h4 className="text-white font-bold text-sm line-clamp-1">{getLocalized(featuredVideo.title)}</h4>
-                      </div>
-                    </motion.div>
+                  {/* Title Overlay (Bottom) */}
+                  <div className="absolute inset-x-0 bottom-0 p-10 md:p-14 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                    <div className="max-w-xl">
+                      <p className="text-secondary font-bold text-[10px] uppercase tracking-[0.4em] mb-4 drop-shadow-md">
+                        {getLocalized(featuredVideo?.subtitle) || t.media.featured.subtitle}
+                      </p>
+                      <h3 className="text-white font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] drop-shadow-lg">
+                        {getLocalized(featuredVideo?.title) || t.media.featured.title}
+                      </h3>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-full bg-black relative flex items-center justify-center animate-in fade-in duration-500">
+                  {featuredVideo?.videoFileUrl ? (
+                    <video
+                      src={featuredVideo.videoFileUrl}
+                      className="w-full h-full object-cover md:object-contain"
+                      controls
+                      autoPlay
+                      controlsList="nodownload"
+                    />
+                  ) : (
+                    <iframe
+                      src={getEmbedUrl(featuredVideo?.videoUrl || "") + (featuredVideo?.videoUrl ? "?autoplay=1" : "")}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
                   )}
-
-                  {videoGallery.map((vid: any, idx: number) => {
-                    // Don't show the currently selected video in the small thumbnails
-                    if (selectedVideo === vid) return null;
-                    
-                    return (
-                      <motion.div 
-                        key={idx}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: idx * 0.1 }}
-                        className="group relative aspect-video overflow-hidden rounded-2xl shadow-lg cursor-pointer"
-                        onClick={() => { setSelectedVideo(vid); setIsPlaying(true); }}
-                      >
-                        <img 
-                          src={vid.thumbnail}
-                          className="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
-                        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                          <span className="material-symbols-outlined text-white text-3xl mb-2 bg-black/40 rounded-full p-2 backdrop-blur-sm group-hover:bg-secondary transition-colors">play_arrow</span>
-                          <h4 className="text-white font-bold text-sm line-clamp-1">{getLocalized(vid.title)}</h4>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                  <button
+                    onClick={() => setIsPlaying(false)}
+                    className="absolute top-4 right-4 z-[60] bg-black/40 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-md transition-colors"
+                  >
+                    <span className="material-symbols-outlined">close</span>
+                  </button>
                 </div>
               )}
-            </div>
+            </motion.div>
           ) : (
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
               {Array.isArray(galleryItems) && galleryItems.map((item: any, index: number) => (
