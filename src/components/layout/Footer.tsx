@@ -147,7 +147,7 @@ export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature }: Fo
               href="https://instagram.com/asem.mamdohh" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-white/40 hover:text-secondary transition-colors duration-300"
+              className="text-secondary hover:text-white transition-colors duration-300 drop-shadow-md"
             >
               {t.footer.signature}
             </a>
