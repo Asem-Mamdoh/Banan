@@ -194,25 +194,31 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               <div className="flex flex-col items-center text-center">
                 <span className="material-symbols-outlined text-secondary mb-2 md:mb-3">square_foot</span>
                 <span className="text-[9px] uppercase tracking-widest text-[#1b1c1a]/40 mb-1">{t.projects.modal.area}</span>
-                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{project.specs.area} sqm</span>
+                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{project.specs?.area || '-'}</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span className="material-symbols-outlined text-secondary mb-2 md:mb-3">bed</span>
                 <span className="text-[9px] uppercase tracking-widest text-[#1b1c1a]/40 mb-1">{t.projects.modal.bedrooms}</span>
-                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{project.specs.bedrooms}</span>
+                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{project.specs?.bedrooms || '-'}</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span className="material-symbols-outlined text-secondary mb-2 md:mb-3">apartment</span>
                 <span className="text-[9px] uppercase tracking-widest text-[#1b1c1a]/40 mb-1">{t.projects.modal.type}</span>
-                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{typeSpec}</span>
+                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{typeSpec || '-'}</span>
               </div>
             </div>
 
-            <div className="prose prose-sm mb-8 overflow-hidden">
-              <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/70 font-light whitespace-pre-wrap">
-                {description}
-              </p>
-            </div>
+            {description && (
+              <div className="mb-10 relative bg-white p-6 md:p-8 rounded-2xl border border-black/5 shadow-sm">
+                <div className={`absolute top-0 ${isRtl ? 'right-0 rounded-l-full' : 'left-0 rounded-r-full'} w-1.5 h-full bg-secondary`}></div>
+                <div className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-secondary/40 text-3xl shrink-0 mt-1">format_quote</span>
+                  <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/80 font-light whitespace-pre-wrap">
+                    {description}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Units & Prices Table */}
             {project.units && project.units.length > 0 && (
