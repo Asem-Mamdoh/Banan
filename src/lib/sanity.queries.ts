@@ -81,6 +81,7 @@ export const projectsForAgentQuery = `*[_type == "project"] | order(orderRank as
   descriptionEn,
   descriptionAr,
   "mainImageUrl": mainImage.asset->url,
+  "brochureUrl": brochure.asset->url,
   specs,
   units
 }`;
@@ -96,6 +97,7 @@ export const projectsListQuery = `*[_type == "project"] | order(orderRank asc, _
   descriptionAr,
   "mainImageUrl": mainImage.asset->url,
   "gallery": gallery[].asset->url,
+  "brochureUrl": brochure.asset->url,
   specs,
   units
 }`;

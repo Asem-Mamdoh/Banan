@@ -208,13 +208,56 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               </div>
             </div>
 
-            <div className="prose prose-sm mb-10 overflow-hidden">
-              <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/70 font-light">
+            <div className="prose prose-sm mb-8 overflow-hidden">
+              <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/70 font-light whitespace-pre-wrap">
                 {description}
               </p>
             </div>
 
-            <div className="mt-auto pt-4 md:pt-8">
+            {/* Units & Prices Table */}
+            {project.units && project.units.length > 0 && (
+              <div className="mb-8 overflow-hidden rounded-2xl border border-black/10">
+                <div className="bg-[#1b1c1a] px-4 py-3 text-center">
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+                    {t.projects.modal.availableUnits}
+                  </h4>
+                </div>
+                <div className="divide-y divide-black/5 bg-white">
+                  {project.units.map((unit: any, idx: number) => {
+                    const unitType = isRtl ? unit.typeAr : unit.typeEn;
+                    return (
+                      <div key={idx} className="flex items-center justify-between p-4 text-sm hover:bg-black/[0.02] transition-colors">
+                        <div className="flex flex-col">
+                          <span className="font-bold text-[#1b1c1a]">{unitType}</span>
+                          {unit.area && <span className="text-[10px] text-[#1b1c1a]/50 mt-1">{unit.area}</span>}
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] uppercase tracking-widest text-[#1b1c1a]/50 block mb-1">
+                            {t.projects.modal.price}
+                          </span>
+                          <span className="font-bold text-secondary">{unit.priceOMR.toLocaleString()} OMR</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-auto pt-4 md:pt-6 flex flex-col gap-3">
+              {project.brochureUrl && (
+                <a
+                  href={`${project.brochureUrl}?dl=`}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative flex items-center justify-center gap-4 w-full py-4 md:py-5 border-2 border-[#1b1c1a] text-[#1b1c1a] bg-transparent overflow-hidden rounded-2xl font-bold uppercase tracking-[0.2em] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <div className="absolute inset-0 bg-[#1b1c1a] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                  <span className="relative material-symbols-outlined text-xl group-hover:text-white transition-colors duration-500">picture_as_pdf</span>
+                  <span className="relative text-[10px] md:text-xs group-hover:text-white transition-colors duration-500">{t.projects.modal.downloadBrochure}</span>
+                </a>
+              )}
               <a
                 href={whatsappLink}
                 target="_blank"

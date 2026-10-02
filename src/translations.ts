@@ -128,6 +128,10 @@ export const translations = {
         area: "Total Area",
         bedrooms: "Bedrooms",
         type: "Property Type",
+        downloadBrochure: "Download Brochure",
+        availableUnits: "Available Units & Prices",
+        unitType: "Unit Type",
+        price: "Starting Price",
         inquiry: "Inquire via WhatsApp",
         close: "Close"
       },
@@ -331,6 +335,10 @@ export const translations = {
         area: "المساحة الإجمالية",
         bedrooms: "غرف النوم",
         type: "نوع العقار",
+        downloadBrochure: "تحميل البروشور (PDF)",
+        availableUnits: "الوحدات المتاحة والأسعار",
+        unitType: "نوع الوحدة",
+        price: "السعر المبدئي",
         inquiry: "الاستفسار عبر واتساب",
         close: "إغلاق"
       },
