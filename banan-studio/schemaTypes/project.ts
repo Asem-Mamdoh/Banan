@@ -6,6 +6,13 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'orderRank',
+      title: 'الترتيب (Order)',
+      type: 'number',
+      description: 'أدخل رقم لترتيب عرض المشروع (1 سيظهر أولاً، 2 سيظهر ثانياً، إلخ)',
+      initialValue: 99,
+    }),
+    defineField({
       name: 'titleEn',
       title: 'العنوان (إنجليزي)',
       type: 'string',

@@ -73,7 +73,7 @@ export const socialSectionQuery = `*[_type == "socialSection"][0] {
 }`;
 
 /** Compact project data for the AI sales agent (matches project document fields). */
-export const projectsForAgentQuery = `*[_type == "project"] | order(_createdAt desc) {
+export const projectsForAgentQuery = `*[_type == "project"] | order(orderRank asc, _createdAt desc) {
   titleEn,
   titleAr,
   category,
@@ -85,7 +85,7 @@ export const projectsForAgentQuery = `*[_type == "project"] | order(_createdAt d
 }`;
 
 /** Full project data for the frontend gallery. */
-export const projectsListQuery = `*[_type == "project"] | order(_createdAt asc) {
+export const projectsListQuery = `*[_type == "project"] | order(orderRank asc, _createdAt desc) {
   _id,
   "slug": slug.current,
   titleEn,

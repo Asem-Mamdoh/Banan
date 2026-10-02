@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import ProjectModal from '../ui/ProjectModal';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const ProjectsGallery = () => {
   const { t, isRtl, cmsData } = useLanguage();
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   // Fallback if CMS data is still loading or undefined
   const projects = cmsData?.projectsList || [];
+  const visibleProjects = showAll ? projects : projects.slice(0, 6);
 
   return (
     <section id="projects" className="section-padding bg-surface">
@@ -27,17 +30,21 @@ const ProjectsGallery = () => {
 
         {/* Projects Grid */}
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project: any, index: number) => {
-            const title = isRtl ? project.titleAr : project.titleEn;
-            const description = isRtl ? project.descriptionAr : project.descriptionEn;
-            
-            return (
-              <div 
-                key={project._id}
-                className="group relative flex flex-col overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-              >
+          <AnimatePresence mode="popLayout">
+            {visibleProjects.map((project: any, index: number) => {
+              const title = isRtl ? project.titleAr : project.titleEn;
+              const description = isRtl ? project.descriptionAr : project.descriptionEn;
+              
+              return (
+                <motion.div 
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  key={project._id}
+                  className="group relative flex flex-col overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                >
                 {/* Media Container */}
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <img
@@ -82,11 +89,27 @@ const ProjectsGallery = () => {
                       arrow_forward
                     </span>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </div>
+
+        {/* View All Button */}
+        {projects.length > 6 && (
+          <div className="mt-16 flex justify-center" data-aos="fade-up">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="group relative flex items-center justify-center gap-3 overflow-hidden border border-[#1b1c1a]/20 bg-transparent px-8 py-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1b1c1a] transition-all duration-500 hover:border-[#1b1c1a] hover:bg-[#1b1c1a] hover:text-white"
+            >
+              <span className="relative z-10">
+                {showAll 
+                  ? (isRtl ? 'عرض عدد أقل' : 'View Less') 
+                  : (isRtl ? 'عرض جميع المشاريع' : 'View All Projects')}
+              </span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Project Details Modal */}
