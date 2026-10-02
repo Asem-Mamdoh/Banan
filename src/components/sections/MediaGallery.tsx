@@ -227,7 +227,11 @@ export default function MediaGallery() {
               onClick={(e) => e.stopPropagation()}
               onContextMenu={(e) => e.preventDefault()}
             />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
-}
+};
 
+export default MediaGallery;
