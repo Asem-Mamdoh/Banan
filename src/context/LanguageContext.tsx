@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { translations, Language } from '../translations';
 import { client, getLocaleContent } from '../lib/sanity';
-import { heroQuery, featuresQuery, mediaQuery, siteSettingsQuery, projectsSectionQuery, socialSectionQuery } from '../lib/sanity.queries';
+import { heroQuery, featuresQuery, mediaQuery, siteSettingsQuery, projectsSectionQuery, socialSectionQuery, projectsListQuery } from '../lib/sanity.queries';
 
 interface LanguageContextType {
   language: Language;
@@ -45,16 +45,17 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
       // 2. Fetch fresh data from Sanity in the background
       try {
-        const [hero, features, media, settings, projectsSection, socialSection] = await Promise.all([
+        const [hero, features, media, settings, projectsSection, socialSection, projectsList] = await Promise.all([
           client.fetch(heroQuery),
           client.fetch(featuresQuery),
           client.fetch(mediaQuery),
           client.fetch(siteSettingsQuery),
           client.fetch(projectsSectionQuery),
           client.fetch(socialSectionQuery),
+          client.fetch(projectsListQuery),
         ]);
         
-        const freshData = { hero, features, media, settings, projectsSection, socialSection };
+        const freshData = { hero, features, media, settings, projectsSection, socialSection, projectsList };
         console.log('Fresh CMS data fetched from server successfully');
         
         // Update the app with fresh data (if anything changed)

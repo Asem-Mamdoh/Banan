@@ -1,11 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Project } from '../../data/projects';
 import { useLanguage } from '../../context/LanguageContext';
 import { useEffect, useState } from 'react';
 import { WHATSAPP_NUMBER, WHATSAPP_BASE_URL } from '../../constants';
 
 interface ProjectModalProps {
-  project: Project | null;
+  project: any | null;
   onClose: () => void;
 }
 
@@ -57,24 +56,27 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
 
   if (!project) return null;
 
-  const projectInfo = (t.projects.items as any)[project.translationKey];
+  const title = isRtl ? project.titleAr : project.titleEn;
+  const description = isRtl ? project.descriptionAr : project.descriptionEn;
+  const typeSpec = isRtl ? project.specs?.typeAr : project.specs?.typeEn;
+  const galleryImages = project.gallery?.length ? project.gallery : [project.mainImageUrl].filter(Boolean);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % project.gallery.length);
+    setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + project.gallery.length) % project.gallery.length);
+    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
   const highResUrl = (url: string) => {
-    if (url.includes('images.unsplash.com')) {
+    if (url && url.includes('images.unsplash.com')) {
       return url.replace('w=1200', 'w=2400').replace('q=80', 'q=100');
     }
     return url;
   };
 
-  const whatsappMessage = t.social.whatsapp.projectInquiry.replace('{project}', projectInfo.title);
+  const whatsappMessage = t.social.whatsapp.projectInquiry.replace('{project}', title);
   const whatsappLink = `${WHATSAPP_BASE_URL}${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -115,8 +117,8 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             <AnimatePresence mode="popLayout">
               <motion.img
                 key={currentSlide}
-                layoutId={`project-image-${project.id}-${currentSlide}`}
-                src={project.gallery[currentSlide]}
+                layoutId={`project-image-${project._id}-${currentSlide}`}
+                src={galleryImages[currentSlide]}
                 initial={{ opacity: 0, x: isRtl ? -100 : 100 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: isRtl ? 100 : -100 }}
@@ -162,7 +164,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
 
             {/* Indicators */}
             <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 pointer-events-none">
-              {project.gallery.map((_, idx) => (
+              {galleryImages.map((_: any, idx: number) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}
@@ -179,12 +181,12 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             <div className="mb-6 flex items-center gap-4">
               <span className="h-[1px] w-10 bg-secondary/40"></span>
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-secondary">
-                {projectInfo.category}
+                {project.category}
               </span>
             </div>
 
             <h2 className="mb-6 text-3xl md:text-4xl font-headline font-bold text-[#1b1c1a] leading-tight">
-              {projectInfo.title}
+              {title}
             </h2>
 
             {/* Specs Grid */}
@@ -202,13 +204,13 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               <div className="flex flex-col items-center text-center">
                 <span className="material-symbols-outlined text-secondary mb-2 md:mb-3">apartment</span>
                 <span className="text-[9px] uppercase tracking-widest text-[#1b1c1a]/40 mb-1">{t.projects.modal.type}</span>
-                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{project.specs.type}</span>
+                <span className="text-[10px] md:text-xs font-bold text-[#1b1c1a]">{typeSpec}</span>
               </div>
             </div>
 
             <div className="prose prose-sm mb-10 overflow-hidden">
               <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/70 font-light">
-                {projectInfo.fullDescription}
+                {description}
               </p>
             </div>
 
@@ -255,8 +257,8 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                 exit={{ scale: 0.9 }}
               >
                 <motion.img
-                  layoutId={`project-image-${project.id}-${currentSlide}`}
-                  src={highResUrl(project.gallery[currentSlide])}
+                  layoutId={`project-image-${project._id}-${currentSlide}`}
+                  src={highResUrl(galleryImages[currentSlide] || '')}
                   className="max-w-full max-h-full object-contain cursor-grab active:cursor-grabbing shadow-2xl"
                   drag
                   dragConstraints={{ left: -200, right: 200, top: -200, bottom: 200 }}

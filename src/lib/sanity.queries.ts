@@ -83,3 +83,18 @@ export const projectsForAgentQuery = `*[_type == "project"] | order(_createdAt d
   specs,
   units
 }`;
+
+/** Full project data for the frontend gallery. */
+export const projectsListQuery = `*[_type == "project"] | order(_createdAt asc) {
+  _id,
+  "slug": slug.current,
+  titleEn,
+  titleAr,
+  category,
+  descriptionEn,
+  descriptionAr,
+  "mainImageUrl": mainImage.asset->url,
+  "gallery": gallery[].asset->url,
+  specs,
+  units
+}`;
