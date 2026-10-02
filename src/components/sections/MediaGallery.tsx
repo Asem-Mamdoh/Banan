@@ -42,6 +42,12 @@ export default function MediaGallery() {
     return url;
   };
 
+  const getOptimizedUrl = (url: string, w = 1200) => {
+    if (!url) return '';
+    if (url.includes('cdn.sanity.io')) return `${url}?auto=format&w=${w}&q=75`;
+    return url;
+  };
+
   return (
     <section id="media" className="section-padding bg-[#faf9f6] relative overflow-hidden">
       <div className="container-custom">
@@ -100,7 +106,8 @@ export default function MediaGallery() {
               {!isPlaying ? (
                 <>
                   <img 
-                    src={featuredVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80"} 
+                    src={getOptimizedUrl(featuredVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80", 1920)} 
+                    loading="lazy"
                     className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" 
                     alt="Cinema Gallery Hero"
                   />
@@ -171,10 +178,11 @@ export default function MediaGallery() {
                   onClick={() => setSelectedImage(item.image || (index === 0 ? "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" : "https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&w=1200&q=80"))}
                 >
                   <img 
-                    src={item.image || (index === 0 
+                    src={getOptimizedUrl(item.image || (index === 0 
                       ? "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" 
                       : "https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&w=1200&q=80"
-                    )} 
+                    ), 1000)} 
+                    loading="lazy"
                     className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-[1500ms]" 
                     alt={item.title}
                   />
