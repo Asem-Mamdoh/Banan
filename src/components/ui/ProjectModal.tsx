@@ -211,8 +211,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             {description && (
               <div className="mb-10 relative bg-white p-6 md:p-8 rounded-2xl border border-black/5 shadow-sm">
                 <div className={`absolute top-0 ${isRtl ? 'right-0 rounded-l-full' : 'left-0 rounded-r-full'} w-1.5 h-full bg-secondary`}></div>
-                <div className="flex items-start gap-4">
-                  <span className="material-symbols-outlined text-secondary/40 text-3xl shrink-0 mt-1">format_quote</span>
+                <div className="flex items-start">
                   <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/80 font-light whitespace-pre-wrap">
                     {description}
                   </p>
