@@ -36,7 +36,19 @@ export default defineType({
       fields: [
         defineField({name: 'title', title: 'عنوان الفيديو', type: 'localeString'}),
         defineField({name: 'subtitle', title: 'العنوان الفرعي للفيديو', type: 'localeString'}),
-        defineField({name: 'videoUrl', title: 'رابط يوتيوب/فيميو', type: 'url'}),
+        defineField({
+          name: 'videoUrl', 
+          title: 'رابط يوتيوب/فيميو (بديل 1)', 
+          type: 'url',
+          description: 'إذا كان الفيديو مرفوعاً على يوتيوب ضع الرابط هنا'
+        }),
+        defineField({
+          name: 'videoFile', 
+          title: 'ملف الفيديو مباشرة (بديل 2 - مفضل)', 
+          type: 'file',
+          description: 'ارفع ملف الفيديو بصيغة MP4 ليعمل داخل الموقع بدون إعلانات يوتيوب',
+          options: { accept: 'video/*' }
+        }),
         defineField({name: 'thumbnail', title: 'الصورة المصغرة للفيديو', type: 'image'}),
       ]
     }),

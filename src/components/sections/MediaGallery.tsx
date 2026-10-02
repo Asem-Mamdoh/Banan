@@ -222,12 +222,22 @@ export default function MediaGallery() {
               className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <iframe
-                src={getEmbedUrl(featuredVideo?.videoUrl || "")}
-                className="absolute inset-0 w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              {featuredVideo?.videoFileUrl ? (
+                <video
+                  src={featuredVideo.videoFileUrl}
+                  className="absolute inset-0 w-full h-full object-contain"
+                  controls
+                  autoPlay
+                  controlsList="nodownload"
+                />
+              ) : (
+                <iframe
+                  src={getEmbedUrl(featuredVideo?.videoUrl || "")}
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )}
             </motion.div>
           </motion.div>
         )}
