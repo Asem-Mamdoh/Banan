@@ -4,7 +4,7 @@ export default defineType({
   name: 'mediaSection',
   title: 'معرض الوسائط',
   type: 'document',
-  groups: [
+  fieldsets: [
     { name: 'general', title: 'إعدادات عامة (عناوين)' },
     { name: 'video', title: 'قسم الفيديو' },
     { name: 'photos', title: 'قسم الصور' },
@@ -14,25 +14,25 @@ export default defineType({
       name: 'title',
       title: 'عنوان القسم',
       type: 'localeString',
-      group: 'general',
+      fieldset: 'general',
     }),
     defineField({
       name: 'videoButtonText',
       title: 'تسمية زر الفيديوهات',
       type: 'localeString',
-      group: 'general',
+      fieldset: 'general',
     }),
     defineField({
       name: 'photoButtonText',
       title: 'تسمية زر الصور',
       type: 'localeString',
-      group: 'general',
+      fieldset: 'general',
     }),
     defineField({
       name: 'featuredVideo',
       title: 'الفيديو المميز',
       type: 'object',
-      group: 'video',
+      fieldset: 'video',
       fields: [
         defineField({name: 'title', title: 'عنوان الفيديو', type: 'localeString'}),
         defineField({name: 'subtitle', title: 'العنوان الفرعي للفيديو', type: 'localeString'}),
@@ -44,7 +44,7 @@ export default defineType({
       name: 'photoGallery',
       title: 'معرض الصور',
       type: 'array',
-      group: 'photos',
+      fieldset: 'photos',
       of: [{
         type: 'object',
         fields: [
