@@ -4,7 +4,7 @@ import { WHATSAPP_NUMBER, WHATSAPP_BASE_URL } from '../../constants';
 export default function SocialPulse() {
   const { t, isRtl } = useLanguage();
 
-  const feedImages = [
+  const defaultImages = [
     "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
@@ -12,6 +12,9 @@ export default function SocialPulse() {
     "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
   ];
+
+  const cmsImages = useLanguage().cmsData?.socialSection?.feedImages?.map((img: any) => img.url) || [];
+  const feedImages = cmsImages.length > 0 ? cmsImages : defaultImages;
 
   return (
     <section id="social" className="section-padding bg-surface-variant/30">
@@ -70,12 +73,18 @@ export default function SocialPulse() {
 
           {/* Social Feed Grid */}
           <div className="lg:col-span-8 grid grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
-            {feedImages.map((src, i) => (
-              <div key={i} className="aspect-square relative group overflow-hidden rounded-sm bg-surface-variant">
+            {feedImages.map((src: string, i: number) => (
+              <a 
+                href="https://www.instagram.com/banan.oman/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                key={i} 
+                className="aspect-square relative group overflow-hidden rounded-sm bg-surface-variant block cursor-pointer"
+              >
                 <img 
                   src={src} 
                   alt={`Social Feed ${i + 1}`} 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
                   <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-transform duration-500">
@@ -84,7 +93,7 @@ export default function SocialPulse() {
                     </svg>
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
