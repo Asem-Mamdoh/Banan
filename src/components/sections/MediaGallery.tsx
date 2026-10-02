@@ -97,40 +97,69 @@ export default function MediaGallery() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="relative aspect-video rounded-3xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-black"
             >
-              <img 
-                src={featuredVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80"} 
-                className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" 
-                alt="Cinema Gallery Hero"
-              />
-              
-              {/* Centered Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <motion.button 
-                  onClick={() => setIsPlaying(true)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="size-20 md:size-28 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white shadow-2xl relative group/play"
-                >
-                  {/* Pulsing Outer Ring */}
-                  <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse scale-110" />
+              {!isPlaying ? (
+                <>
+                  <img 
+                    src={featuredVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80"} 
+                    className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" 
+                    alt="Cinema Gallery Hero"
+                  />
                   
-                  <span className="material-symbols-outlined text-5xl md:text-6xl lg:text-7xl relative z-10 translate-x-[2px]">
-                    play_arrow
-                  </span>
-                </motion.button>
-              </div>
+                  {/* Centered Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center z-20">
+                    <motion.button 
+                      onClick={() => setIsPlaying(true)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="size-20 md:size-28 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white shadow-2xl relative group/play"
+                    >
+                      <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse scale-110" />
+                      
+                      <span className="material-symbols-outlined text-5xl md:text-6xl lg:text-7xl relative z-10 translate-x-[2px]">
+                        play_arrow
+                      </span>
+                    </motion.button>
+                  </div>
 
-              {/* Title Overlay (Bottom) */}
-              <div className="absolute inset-x-0 bottom-0 p-10 md:p-14 z-10">
-                <div className="max-w-xl">
-                  <p className="text-secondary font-bold text-[10px] uppercase tracking-[0.4em] mb-4">
-                    {getLocalized(featuredVideo?.subtitle) || t.media.featured.subtitle}
-                  </p>
-                  <h3 className="text-white font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">
-                    {getLocalized(featuredVideo?.title) || t.media.featured.title}
-                  </h3>
+                  {/* Title Overlay (Bottom) */}
+                  <div className="absolute inset-x-0 bottom-0 p-10 md:p-14 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                    <div className="max-w-xl">
+                      <p className="text-secondary font-bold text-[10px] uppercase tracking-[0.4em] mb-4 drop-shadow-md">
+                        {getLocalized(featuredVideo?.subtitle) || t.media.featured.subtitle}
+                      </p>
+                      <h3 className="text-white font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] drop-shadow-lg">
+                        {getLocalized(featuredVideo?.title) || t.media.featured.title}
+                      </h3>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-full bg-black relative flex items-center justify-center animate-in fade-in duration-500">
+                  {featuredVideo?.videoFileUrl ? (
+                    <video
+                      src={featuredVideo.videoFileUrl}
+                      className="w-full h-full object-cover md:object-contain"
+                      controls
+                      autoPlay
+                      controlsList="nodownload"
+                    />
+                  ) : (
+                    <iframe
+                      src={getEmbedUrl(featuredVideo?.videoUrl || "") + (featuredVideo?.videoUrl ? "?autoplay=1" : "")}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
+                  {/* Close button to go back to thumbnail */}
+                  <button
+                    onClick={() => setIsPlaying(false)}
+                    className="absolute top-4 right-4 z-[60] bg-black/40 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-md transition-colors"
+                  >
+                    <span className="material-symbols-outlined">close</span>
+                  </button>
                 </div>
-              </div>
+              )}
             </motion.div>
           ) : (
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
@@ -200,54 +229,6 @@ export default function MediaGallery() {
               onClick={(e) => e.stopPropagation()}
               onContextMenu={(e) => e.preventDefault()}
             />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Video Modal */}
-      <AnimatePresence>
-        {isPlaying && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
-            onClick={() => setIsPlaying(false)}
-          >
-            <button
-              onClick={() => setIsPlaying(false)}
-              className="absolute top-6 right-6 md:top-10 md:right-10 text-white/70 hover:text-white transition-colors z-10"
-            >
-              <span className="material-symbols-outlined text-4xl">close</span>
-            </button>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {featuredVideo?.videoFileUrl ? (
-                <video
-                  src={featuredVideo.videoFileUrl}
-                  className="absolute inset-0 w-full h-full object-contain"
-                  controls
-                  autoPlay
-                  controlsList="nodownload"
-                />
-              ) : (
-                <iframe
-                  src={getEmbedUrl(featuredVideo?.videoUrl || "")}
-                  className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
