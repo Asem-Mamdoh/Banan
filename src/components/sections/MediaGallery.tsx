@@ -6,8 +6,14 @@ export default function MediaGallery() {
   const [activeTab, setActiveTab] = useState<'videos' | 'photos'>('videos');
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const { t, isRtl, cmsData } = useLanguage();
+  const { t, language, isRtl, cmsData } = useLanguage();
   
+  const getLocalized = (field: any) => {
+    if (!field) return undefined;
+    if (typeof field === 'string') return field;
+    return field[language] || field.en || field.ar;
+  };
+
   const cmsMedia = cmsData?.media;
   const localFallbacks = [
     { image: '/assets/gallery/golf-1.jpg', title: 'Trump Golf Villas', category: 'Luxury Living' },
@@ -47,18 +53,18 @@ export default function MediaGallery() {
               viewport={{ once: true }}
               className="inline-block text-[10px] font-bold uppercase tracking-[0.4em] text-secondary mb-6"
             >
-              {cmsMedia?.title || t.media.title}
+              {getLocalized(cmsMedia?.title) || t.media.title}
             </motion.span>
             <h2 className={`text-4xl md:text-5xl lg:text-7xl font-headline font-bold text-[#1b1c1a] tracking-tight px-2 md:px-0 ${isRtl ? 'leading-[1.4]' : 'leading-[1.1]'}`}>
-              {featuredVideo?.title || t.media.featured.title}
+              {getLocalized(featuredVideo?.title) || t.media.featured.title}
             </h2>
           </div>
 
           <div className="flex justify-start md:justify-end">
             <div className="relative flex bg-white p-1 rounded-full border border-black/5 shadow-inner">
               {[
-                { id: 'videos', label: cmsMedia?.videoButtonText || t.media.tabs.videos },
-                { id: 'photos', label: cmsMedia?.photoButtonText || t.media.tabs.photos }
+                { id: 'videos', label: getLocalized(cmsMedia?.videoButtonText) || t.media.tabs.videos },
+                { id: 'photos', label: getLocalized(cmsMedia?.photoButtonText) || t.media.tabs.photos }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -118,10 +124,10 @@ export default function MediaGallery() {
               <div className="absolute inset-x-0 bottom-0 p-10 md:p-14 z-10">
                 <div className="max-w-xl">
                   <p className="text-secondary font-bold text-[10px] uppercase tracking-[0.4em] mb-4">
-                    {featuredVideo?.subtitle || t.media.featured.subtitle}
+                    {getLocalized(featuredVideo?.subtitle) || t.media.featured.subtitle}
                   </p>
                   <h3 className="text-white font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">
-                    {featuredVideo?.title || t.media.featured.title}
+                    {getLocalized(featuredVideo?.title) || t.media.featured.title}
                   </h3>
                 </div>
               </div>
@@ -149,10 +155,10 @@ export default function MediaGallery() {
                   
                   <div className={`absolute inset-x-0 bottom-0 p-8 md:p-12 flex flex-col justify-end transform transition-transform duration-500 group-hover:translate-y-[-10px] ${isRtl ? 'text-right' : 'text-left'}`}>
                     <span className="text-secondary font-bold text-[9px] uppercase tracking-[0.3em] mb-3">
-                      {item.category}
+                      {getLocalized(item.category)}
                     </span>
                     <h4 className="text-white font-headline text-2xl md:text-3xl font-bold">
-                      {item.title}
+                      {getLocalized(item.title)}
                     </h4>
                     <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2 text-white/80">
                       <span className="material-symbols-outlined text-sm">fullscreen</span>
