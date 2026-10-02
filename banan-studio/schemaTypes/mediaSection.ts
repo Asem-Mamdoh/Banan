@@ -34,8 +34,8 @@ export default defineType({
       type: 'object',
       fieldset: 'video',
       fields: [
-        defineField({name: 'title', title: 'عنوان الفيديو', type: 'localeString'}),
-        defineField({name: 'subtitle', title: 'العنوان الفرعي للفيديو', type: 'localeString'}),
+        defineField({name: 'title', title: 'عنوان الفيديو (الرئيسي)', type: 'localeString'}),
+        defineField({name: 'subtitle', title: 'العنوان الفرعي للفيديو (الرئيسي)', type: 'localeString'}),
         defineField({
           name: 'videoUrl', 
           title: 'رابط يوتيوب/فيميو (بديل 1)', 
@@ -49,7 +49,32 @@ export default defineType({
           description: 'ارفع ملف الفيديو بصيغة MP4 ليعمل داخل الموقع بدون إعلانات يوتيوب',
           options: { accept: 'video/*' }
         }),
-        defineField({name: 'thumbnail', title: 'الصورة المصغرة للفيديو', type: 'image'}),
+        defineField({name: 'thumbnail', title: 'الصورة المصغرة للفيديو (الرئيسي)', type: 'image'}),
+      ]
+    }),
+    defineField({
+      name: 'videoGallery',
+      title: 'فيديوهات إضافية (تظهر أسفل الفيديو الرئيسي)',
+      type: 'array',
+      fieldset: 'video',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({name: 'title', title: 'عنوان الفيديو', type: 'localeString'}),
+            defineField({name: 'category', title: 'التصنيف', type: 'localeString'}),
+            defineField({name: 'videoUrl', title: 'رابط يوتيوب/فيميو (بديل 1)', type: 'url'}),
+            defineField({name: 'videoFile', title: 'ملف الفيديو مباشرة (بديل 2)', type: 'file', options: { accept: 'video/*' }}),
+            defineField({name: 'thumbnail', title: 'الصورة المصغرة', type: 'image'}),
+          ],
+          preview: {
+            select: {
+              title: 'title.ar',
+              subtitle: 'category.ar',
+              media: 'thumbnail'
+            }
+          }
+        }
       ]
     }),
     defineField({

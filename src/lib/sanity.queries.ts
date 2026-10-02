@@ -33,6 +33,13 @@ export const mediaQuery = `*[_type == "mediaSection"][0] {
     "videoFileUrl": videoFile.asset->url,
     "thumbnail": thumbnail.asset->url
   },
+  videoGallery[] {
+    title,
+    category,
+    videoUrl,
+    "videoFileUrl": videoFile.asset->url,
+    "thumbnail": thumbnail.asset->url
+  },
   photoGallery[] {
     "image": image.asset->url,
     title,
