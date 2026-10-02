@@ -129,6 +129,20 @@ export default defineType({
               description: 'e.g. 50 sqm / 50 متر مربع',
             },
           ],
+          preview: {
+            select: {
+              title: 'typeAr',
+              subtitle: 'priceOMR',
+              area: 'area',
+            },
+            prepare(selection: any) {
+              const { title, subtitle, area } = selection
+              return {
+                title: title || 'وحدة جديدة',
+                subtitle: subtitle ? `السعر: ${subtitle} OMR${area ? ` - المساحة: ${area}` : ''}` : (area ? `المساحة: ${area}` : 'بدون سعر'),
+              }
+            }
+          }
         },
       ],
     }),

@@ -63,7 +63,21 @@ export default defineType({
           defineField({name: 'image', title: 'الصورة', type: 'image'}),
           defineField({name: 'title', title: 'عنوان الصورة', type: 'localeString'}),
           defineField({name: 'category', title: 'التصنيف/العلامة', type: 'localeString'}),
-        ]
+        ],
+        preview: {
+          select: {
+            title: 'title.ar',
+            subtitle: 'category.ar',
+            media: 'image',
+          },
+          prepare(selection: any) {
+            return {
+              title: selection.title || 'صورة بدون عنوان',
+              subtitle: selection.subtitle || '',
+              media: selection.media,
+            }
+          }
+        }
       }]
     }),
   ],
