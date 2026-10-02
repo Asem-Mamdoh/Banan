@@ -22,6 +22,20 @@ export default function MediaGallery() {
   const galleryItems = (cmsMedia?.photoGallery && cmsMedia.photoGallery.length > 0) ? cmsMedia.photoGallery : localFallbacks;
   const featuredVideo = cmsMedia?.featuredVideo;
 
+  const getEmbedUrl = (url: string) => {
+    if (!url) return '';
+    if (url.includes('youtube.com/watch?v=')) {
+      return url.replace('watch?v=', 'embed/').split('&')[0];
+    }
+    if (url.includes('youtu.be/')) {
+      return url.replace('youtu.be/', 'youtube.com/embed/').split('?')[0];
+    }
+    if (url.includes('vimeo.com/')) {
+      return url.replace('vimeo.com/', 'player.vimeo.com/video/');
+    }
+    return url;
+  };
+
   return (
     <section id="media" className="section-padding bg-[#faf9f6] relative overflow-hidden">
       <div className="container-custom">
@@ -85,10 +99,8 @@ export default function MediaGallery() {
               
               {/* Centered Play Button Overlay */}
               <div className="absolute inset-0 flex items-center justify-center z-20">
-                <motion.a 
-                  href={featuredVideo?.videoUrl || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <motion.button 
+                  onClick={() => setIsPlaying(true)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   className="size-20 md:size-28 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white shadow-2xl relative group/play"
@@ -99,7 +111,7 @@ export default function MediaGallery() {
                   <span className="material-symbols-outlined text-5xl md:text-6xl lg:text-7xl relative z-10 translate-x-[2px]">
                     play_arrow
                   </span>
-                </motion.a>
+                </motion.button>
               </div>
 
               {/* Title Overlay (Bottom) */}
@@ -182,6 +194,41 @@ export default function MediaGallery() {
               onClick={(e) => e.stopPropagation()}
               onContextMenu={(e) => e.preventDefault()}
             />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {isPlaying && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+            onClick={() => setIsPlaying(false)}
+          >
+            <button
+              onClick={() => setIsPlaying(false)}
+              className="absolute top-6 right-6 md:top-10 md:right-10 text-white/70 hover:text-white transition-colors z-10"
+            >
+              <span className="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <iframe
+                src={getEmbedUrl(featuredVideo?.videoUrl || "")}
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
