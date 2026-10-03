@@ -84,6 +84,9 @@ export default function SocialPulse() {
                 <img 
                   src={src} 
                   alt={`Social Feed ${i + 1}`} 
+                  width="400"
+                  height="400"
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">

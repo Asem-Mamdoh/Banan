@@ -27,7 +27,10 @@ export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature }: Fo
           <div className="lg:col-span-2">
             <img 
               src="/logo.png" 
-              alt="BANAN Real Estate Logo" 
+              alt="BANAN Real Estate Logo"
+              width="160"
+              height="80" 
+              loading="lazy"
               className="h-16 md:h-20 w-auto mb-8"
             />
             <p className="max-w-md text-lg leading-relaxed mb-12">

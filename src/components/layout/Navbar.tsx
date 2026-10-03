@@ -12,7 +12,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/5 backdrop-blur-xl border-b border-white/10">
       <div className="container-custom flex items-center justify-between h-20 md:h-24">
         <a href="/" className="flex items-center bg-transparent">
-          <img src="/logo.png" alt="BANAN Real Estate" className="h-12 md:h-16 w-auto object-contain" />
+          <img src="/logo.png" alt="BANAN Real Estate" width="120" height="64" className="h-12 md:h-16 w-auto object-contain" />
         </a>
 
         {/* Desktop Menu */}

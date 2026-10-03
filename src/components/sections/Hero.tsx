@@ -48,8 +48,11 @@ export default function Hero() {
         <div className="hidden lg:block lg:col-span-5 relative" data-aos={isRtl ? 'fade-right' : 'fade-left'}>
           <div className="relative aspect-[4/5] rounded-tl-[100px] overflow-hidden shadow-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80" 
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800" 
               alt="Oman Luxury Property" 
+              width="400"
+              height="500"
+              fetchpriority="high"
               className="object-cover w-full h-full scale-110 hover:scale-100 transition-transform duration-[2s]"
             />
           </div>

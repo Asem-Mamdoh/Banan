@@ -108,6 +108,8 @@ export default function MediaGallery() {
                   <img 
                     src={getOptimizedUrl(featuredVideo?.thumbnail || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80", 1920)} 
                     loading="lazy"
+                    width="1280"
+                    height="720"
                     className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" 
                     alt="Cinema Gallery Hero"
                   />
@@ -183,6 +185,8 @@ export default function MediaGallery() {
                       : "https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&w=1200&q=80"
                     ), 1000)} 
                     loading="lazy"
+                    width="800"
+                    height="500"
                     className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-[1500ms]" 
                     alt={item.title}
                   />
