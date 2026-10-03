@@ -13,7 +13,13 @@ export default function SocialPulse() {
     "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
   ];
 
-  const cmsImages = useLanguage().cmsData?.socialSection?.feedImages?.map((img: any) => img.url) || [];
+  const getOptimizedUrl = (url: string, w = 600) => {
+    if (!url) return '';
+    if (url.includes('cdn.sanity.io')) return `${url}?auto=format&w=${w}&q=80`;
+    return url;
+  };
+
+  const cmsImages = useLanguage().cmsData?.socialSection?.feedImages?.map((img: any) => getOptimizedUrl(img.url)) || [];
   const feedImages = cmsImages.length > 0 ? cmsImages : defaultImages;
 
   return (
