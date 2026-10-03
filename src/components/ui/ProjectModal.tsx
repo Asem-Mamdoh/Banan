@@ -5,6 +5,7 @@ import { WHATSAPP_NUMBER, WHATSAPP_BASE_URL } from '../../constants';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import ReactMarkdown from 'react-markdown';
 
 interface ProjectModalProps {
   project: any | null;
@@ -218,10 +219,8 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             {description && (
               <div className="mb-10 relative bg-white p-6 md:p-8 rounded-2xl border border-black/5 shadow-sm">
                 <div className={`absolute top-0 ${isRtl ? 'right-0 rounded-l-full' : 'left-0 rounded-r-full'} w-1.5 h-full bg-secondary`}></div>
-                <div className="flex items-start">
-                  <p className="text-sm md:text-base leading-relaxed text-[#1b1c1a]/80 font-light whitespace-pre-wrap">
-                    {description}
-                  </p>
+                <div className="prose prose-sm md:prose-base prose-neutral max-w-none prose-headings:text-primary prose-headings:font-headline prose-p:text-[#1b1c1a]/80 prose-p:font-light prose-p:leading-relaxed prose-a:text-secondary prose-strong:text-[#1b1c1a]">
+                  <ReactMarkdown>{description}</ReactMarkdown>
                 </div>
               </div>
             )}
