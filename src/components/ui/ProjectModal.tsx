@@ -114,56 +114,54 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
         >
           {/* Left/Top: Image Carousel */}
           <div className="relative w-full md:w-[60%] h-[350px] md:h-auto bg-neutral-100 overflow-hidden group/carousel mb-4 md:mb-0">
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="wait">
               <motion.img
                 key={currentSlide}
-                layoutId={`project-image-${project._id}-${currentSlide}`}
                 src={galleryImages[currentSlide] ? `${galleryImages[currentSlide]}?auto=format&w=2000&q=90` : ''}
-                initial={{ opacity: 0, x: isRtl ? -100 : 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: isRtl ? 100 : -100 }}
-                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                whileTap={{ scale: 0.98 }}
-                onTap={() => setIsZoomed(true)}
-                onTouchEnd={handleDoubleTap}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                onClick={() => setIsZoomed(true)}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
                 onDragEnd={(_, info) => {
                   if (info.offset.x > 50) prevSlide();
                   else if (info.offset.x < -50) nextSlide();
                 }}
-                className="absolute inset-0 w-full h-full object-cover cursor-zoom-in group-hover/carousel:scale-105 transition-transform duration-700 pointer-events-auto"
+                className="absolute inset-0 w-full h-full object-cover cursor-zoom-in pointer-events-auto"
               />
             </AnimatePresence>
 
             {/* Zoom Icon Hint */}
-            <div className="absolute top-6 right-6 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 flex items-center gap-2 pointer-events-none">
-              <div className="bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-2">
+            <div className="absolute top-4 right-4 md:top-6 md:right-6 opacity-100 md:opacity-0 md:group-hover/carousel:opacity-100 transition-opacity duration-300 flex items-center gap-2 pointer-events-none z-10">
+              <div className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-2">
                 <span className="material-symbols-outlined text-white text-sm">zoom_in</span>
               </div>
             </div>
 
             {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-            {/* Navigation Arrows (Desktop Only) */}
-            <div className={`hidden md:flex absolute inset-0 items-center justify-between p-6 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-500 pointer-events-none ${isRtl ? 'flex-row-reverse' : ''}`}>
+            {/* Navigation Arrows (Visible on mobile, hover on desktop) */}
+            <div className={`absolute inset-0 flex items-center justify-between p-4 md:p-6 opacity-100 md:opacity-0 md:group-hover/carousel:opacity-100 transition-opacity duration-500 pointer-events-none z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
               <button
-                onClick={prevSlide}
-                className="size-12 flex items-center justify-center bg-white/10 hover:bg-white/30 text-white rounded-full backdrop-blur-md border border-white/10 transition-all pointer-events-auto"
+                onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                className="size-10 md:size-12 flex items-center justify-center bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md border border-white/20 transition-all pointer-events-auto shadow-lg"
               >
                 <span className="material-symbols-outlined">{isRtl ? 'chevron_right' : 'chevron_left'}</span>
               </button>
               <button
-                onClick={nextSlide}
-                className="size-12 flex items-center justify-center bg-white/10 hover:bg-white/30 text-white rounded-full backdrop-blur-md border border-white/10 transition-all pointer-events-auto"
+                onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                className="size-10 md:size-12 flex items-center justify-center bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md border border-white/20 transition-all pointer-events-auto shadow-lg"
               >
                 <span className="material-symbols-outlined">{isRtl ? 'chevron_left' : 'chevron_right'}</span>
               </button>
             </div>
 
             {/* Indicators */}
-            <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 pointer-events-none">
+            <div className="absolute bottom-4 md:bottom-6 left-0 right-0 flex justify-center gap-2 pointer-events-none z-10">
               {galleryImages.map((_: any, idx: number) => (
                 <button
                   key={idx}
