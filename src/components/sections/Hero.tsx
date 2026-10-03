@@ -38,10 +38,13 @@ export default function Hero() {
             >
               {t.hero.cta}
             </a>
-            <button className="flex items-center gap-3 px-8 py-4 rounded-sm font-bold text-[11px] uppercase tracking-widest text-[#1b1c1a] border border-[#1b1c1a]/10 hover:bg-[#1b1c1a]/5 transition-colors">
-              <span className="material-symbols-outlined text-xl" data-icon="play_circle">play_circle</span>
+            <a 
+              href="#features"
+              className="flex items-center gap-3 px-8 py-4 rounded-sm font-bold text-[11px] uppercase tracking-widest text-[#1b1c1a] border border-[#1b1c1a]/10 hover:bg-[#1b1c1a]/5 transition-colors"
+            >
+              <span className="material-symbols-outlined text-xl" data-icon="real_estate_agent">real_estate_agent</span>
               {t.hero.watchStory}
-            </button>
+            </a>
           </div>
         </div>
 

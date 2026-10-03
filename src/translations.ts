@@ -17,7 +17,7 @@ export const translations = {
       headline: "Your Gateway to Luxury Living & Residency.",
       subheadline: "Banan Real Estate: Invest in premium freehold properties and secure your permanent future in the Sultanate of Oman.",
       cta: "Explore Properties",
-      watchStory: "Watch Our Story"
+      watchStory: "Why Choose Us"
     },
     features: {
       badge: "Strategic Investment",
@@ -224,7 +224,7 @@ export const translations = {
       headline: "بوابتكم للحياة الفاخرة والاستثمار والإقامة.",
       subheadline: "بنان العقارية: استثمروا في عقارات التملك الحر الفاخرة وضمان مستقبل دائم في سلطنة عُمان.",
       cta: "استكشف العقارات",
-      watchStory: "شاهد قصتنا"
+      watchStory: "لماذا نحن؟"
     },
     features: {
       badge: "استثمار استراتيجي",

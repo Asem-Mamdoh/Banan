@@ -11,7 +11,7 @@ export default function Features({ selectedFeature, onSelectFeature }: FeaturesP
   const features = t.features.items;
 
   return (
-    <section className="section-padding bg-[#faf9f5]">
+    <section id="features" className="section-padding bg-[#faf9f5]">
       <div className="container-custom">
         <div className="max-w-3xl mb-20" data-aos="fade-up">
           <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#004B63] mb-4 font-headline">
