@@ -2,6 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
 import { useEffect, useState } from 'react';
 import { WHATSAPP_NUMBER, WHATSAPP_BASE_URL } from '../../constants';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 interface ProjectModalProps {
   project: any | null;
@@ -114,6 +117,12 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
         >
           {/* Left/Top: Image Carousel */}
           <div className="relative w-full md:w-[60%] h-[350px] md:h-auto bg-neutral-100 overflow-hidden group/carousel mb-4 md:mb-0">
+            {/* Preload adjacent images for instant switching */}
+            <div className="hidden">
+              <img src={galleryImages[(currentSlide + 1) % galleryImages.length] ? `${galleryImages[(currentSlide + 1) % galleryImages.length]}?auto=format&w=2000&q=90` : ''} alt="preload next" />
+              <img src={galleryImages[(currentSlide - 1 + galleryImages.length) % galleryImages.length] ? `${galleryImages[(currentSlide - 1 + galleryImages.length) % galleryImages.length]}?auto=format&w=2000&q=90` : ''} alt="preload prev" />
+            </div>
+            
             <AnimatePresence mode="wait">
               <motion.img
                 key={currentSlide}
@@ -283,53 +292,17 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
           </div>
         </motion.div>
 
-        {/* Zoom Overlay (Full Screen) */}
-        <AnimatePresence>
-          {isZoomed && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[150] bg-black flex items-center justify-center cursor-zoom-out"
-              onClick={() => setIsZoomed(false)}
-            >
-              {/* Zoom Close Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsZoomed(false);
-                }}
-                className={`fixed top-8 ${isRtl ? 'left-8' : 'right-8'} z-[160] size-14 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-xl border border-white/20 transition-all`}
-              >
-                <span className="material-symbols-outlined text-3xl">close</span>
-              </button>
-
-              <motion.div
-                className="relative w-full h-full flex items-center justify-center p-4 md:p-20"
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.9 }}
-              >
-                <motion.img
-                  layoutId={`project-image-${project._id}-${currentSlide}`}
-                  src={highResUrl(galleryImages[currentSlide] || '')}
-                  className="max-w-full max-h-full object-contain cursor-grab active:cursor-grabbing shadow-2xl"
-                  drag
-                  dragConstraints={{ left: -200, right: 200, top: -200, bottom: 200 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={(e) => e.stopPropagation()}
-                />
-              </motion.div>
-
-              {/* Mobile Hint */}
-              <div className="absolute bottom-10 left-0 right-0 flex justify-center md:hidden pointer-events-none">
-                <div className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-white/60 text-[10px] uppercase tracking-widest">
-                  {isRtl ? 'اسحب للاستكشاف • اضغط مرتين للإغلاق' : 'Drag to explore • Double-tap to close'}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Zoom Overlay (Professional Full Screen) */}
+        <Lightbox
+          open={isZoomed}
+          close={() => setIsZoomed(false)}
+          index={currentSlide}
+          slides={galleryImages.map((url: string) => ({ src: highResUrl(url) }))}
+          plugins={[Zoom]}
+          zoom={{ maxZoomPixelRatio: 3 }}
+          on={{ view: ({ index: currentIndex }) => setCurrentSlide(currentIndex) }}
+          carousel={{ padding: 0, spacing: 0, imageFit: 'contain' }}
+        />
       </div>
     </AnimatePresence>
   );
