@@ -40,10 +40,10 @@ export default function AboutUsModal({ isOpen, onClose }: AboutUsModalProps) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, scale: 0.95 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className={`relative w-full max-w-5xl h-[90vh] md:h-[80vh] overflow-y-auto bg-[#faf9f5] rounded-3xl shadow-2xl flex flex-col md:flex-row ${isRtl ? 'text-right' : 'text-left'}`}
+          className={`relative w-full max-w-5xl h-[90vh] md:h-[80vh] overflow-hidden bg-[#faf9f5] rounded-3xl shadow-2xl flex flex-col md:flex-row ${isRtl ? 'text-right' : 'text-left'}`}
         >
           {/* Image Section */}
-          <div className="w-full md:w-1/2 h-64 md:h-full relative overflow-hidden">
+          <div className="w-full md:w-1/2 h-64 md:h-full relative overflow-hidden shrink-0">
             <img 
               src="/hero-bg.webp" 
               alt="About BANAN" 
@@ -56,7 +56,7 @@ export default function AboutUsModal({ isOpen, onClose }: AboutUsModalProps) {
           </div>
 
           {/* Text Section */}
-          <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+          <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col overflow-y-auto">
             <h3 className="text-2xl md:text-4xl font-headline font-bold text-[#1b1c1a] mb-6">
               {isRtl ? "شريكك الموثوق في عالم العقارات الفاخرة" : "Your Trusted Partner in Luxury Real Estate"}
             </h3>
