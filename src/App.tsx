@@ -14,6 +14,7 @@ const ScrollToTop = React.lazy(() => import('./components/ui/ScrollToTop'));
 const LegalModal = React.lazy(() => import('./components/ui/LegalModal'));
 const CookieConsent = React.lazy(() => import('./components/ui/CookieConsent'));
 const SalesAgentChat = React.lazy(() => import('./components/ui/SalesAgentChat'));
+const AboutUsModal = React.lazy(() => import('./components/ui/AboutUsModal'));
 
 import { useLanguage } from './context/LanguageContext';
 import { ChatErrorBoundary } from './components/ui/ChatErrorBoundary';
@@ -24,6 +25,7 @@ const App = () => {
     isOpen: false,
     type: 'privacy'
   });
+  const [showAboutUs, setShowAboutUs] = useState(false);
   const [showCookieConsent, setShowCookieConsent] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<any>(null);
 
@@ -58,12 +60,17 @@ const App = () => {
           onOpenLegal={openLegal} 
           onShowCookies={() => setShowCookieConsent(true)}
           onOpenFeature={handleOpenFeatureById}
+          onOpenAboutUs={() => setShowAboutUs(true)}
         />
         <ScrollToTop />
         <LegalModal 
           isOpen={legalModal.isOpen} 
           onClose={() => setLegalModal(prev => ({ ...prev, isOpen: false }))} 
           type={legalModal.type} 
+        />
+        <AboutUsModal
+          isOpen={showAboutUs}
+          onClose={() => setShowAboutUs(false)}
         />
         <CookieConsent 
           forceShow={showCookieConsent} 

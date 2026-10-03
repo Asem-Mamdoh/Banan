@@ -104,7 +104,7 @@ export const translations = {
       quickLinks: "Quick Links",
       legal: "Legal",
       links: {
-        properties: "Properties",
+        aboutUs: "About Us",
         residency: "Residency Guide",
         roi: "Investment ROI",
         privacy: "Privacy Policy",
@@ -311,7 +311,7 @@ export const translations = {
       quickLinks: "روابط سريعة",
       legal: "قانوني",
       links: {
-        properties: "العقارات",
+        aboutUs: "من نحن",
         residency: "دليل الإقامة",
         roi: "عوائد الاستثمار",
         privacy: "سياسة الخصوصية",

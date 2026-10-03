@@ -4,21 +4,11 @@ interface FooterProps {
   onOpenLegal: (type: 'privacy' | 'terms') => void;
   onShowCookies: () => void;
   onOpenFeature: (id: number) => void;
+  onOpenAboutUs: () => void;
 }
 
-export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature }: FooterProps) {
+export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature, onOpenAboutUs }: FooterProps) {
   const { t, isRtl } = useLanguage();
-
-  const handleScrollToProjects = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const element = document.getElementById('projects');
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   return (
     <footer id="contact" className={`bg-[#1b1c1a] text-white/50 py-[50px] border-t border-white/5 font-body ${isRtl ? 'rtl' : 'ltr'}`}>
@@ -86,10 +76,10 @@ export default function Footer({ onOpenLegal, onShowCookies, onOpenFeature }: Fo
             <ul className="space-y-4">
               <li>
                 <button 
-                  onClick={handleScrollToProjects}
+                  onClick={onOpenAboutUs}
                   className="text-sm hover:text-secondary transition-colors duration-300 cursor-pointer"
                 >
-                  {t.footer.links.properties}
+                  {t.footer.links.aboutUs}
                 </button>
               </li>
               <li>
