@@ -34,6 +34,7 @@ const ProjectsGallery = () => {
             {visibleProjects.map((project: any, index: number) => {
               const title = isRtl ? project.titleAr : project.titleEn;
               const description = isRtl ? project.descriptionAr : project.descriptionEn;
+              const cleanDescription = description ? description.replace(/[#*_~`]/g, '') : '';
               
               return (
                 <motion.div 
@@ -77,7 +78,7 @@ const ProjectsGallery = () => {
                   </h3>
                   
                   <p className="mb-8 text-sm leading-relaxed text-[#1b1c1a]/60 font-light line-clamp-3">
-                    {description}
+                    {cleanDescription}
                   </p>
                   
                   {/* Action Link (Minimalist) */}
